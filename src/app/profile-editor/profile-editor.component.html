@@ -1,0 +1,72 @@
+<form [formGroup]="myForm" (ngSubmit)="onSubmit()" enctype="multipart/form-data">
+
+  <label>
+    title:
+    <input type="text" formControlName="title" required>
+  </label>
+
+  <label>
+    brand:
+    <input type="text" formControlName="brand">
+  </label>
+
+  <label>
+    price:
+    <input type="text" formControlName="price">
+  </label>
+<!--
+  <div formGroupName="address">
+    <h3>Address</h3>
+
+    <label>
+      Street:
+      <input type="text" formControlName="street">
+    </label>
+
+    <label>
+      City:
+      <input type="text" formControlName="city">
+    </label>
+
+    <label>
+      State:
+      <input type="text" formControlName="state">
+    </label>
+
+    <label>
+      Zip Code:
+      <input type="text" formControlName="zip">
+    </label>
+  </div>
+-->
+
+  <div formArrayName="materials">
+    <h3>materials</h3> <button (click)="addMaterial()">Add material</button>
+
+    <div *ngFor="let mat of materials.controls; let i=index">
+      <!-- The repeated alias template -->
+      <label>
+        material:
+        <input type="text" [formControlName]="i">
+      </label>
+    </div>
+  </div>
+
+  <input #file type="file" class="custom-file-input form-control" id="file" name="file" multiple (change)="detectFiles($event)"
+    accept="image/x-png,image/jpeg">
+  <div class="images-preview mt-2" *ngIf="images.length">
+    <div formArrayName="images" *ngFor="let photo of images.controls; let i = index;">
+      <div [formGroupName]="i">
+        <img [src]="photo.value.url" class="card-img-top" alt="Image Preview" style="max-width: 400px">
+      </div>
+    </div>
+  </div>
+
+
+  <!-- <p> Value: {{ profileForm.value | json }} </p> -->
+  <p>
+    Value: {{ myForm.status }}
+  </p>
+  <button type="submit" [disabled]="!myForm.valid">Submit</button>
+  <button mat-raised-button (click)="myForm.reset()">Reset</button>
+</form>
